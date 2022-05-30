@@ -46,8 +46,8 @@ impl From<ClientAccount<Open>> for ClientAccount<InDispute> {
     fn from(val: ClientAccount<Open>, event: &AccountEvent) -> ClientAccount<InDispute> {
         ClientAccount {
            id: val.id,
-           available: val.available,
-           held: val.held,
+           available: val.available - event.amount,
+           held: val.held + event.amount,
            state: State::InDispute(vec![(event.transaction_id, event.amount)])
         }
     }
