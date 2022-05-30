@@ -51,7 +51,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// Since none of these problems are addressed in the specification I will take the simplest and safest
 /// approach. which means no concurrency (order problems) so this will basically a simple stream with 2
-/// btrees as storage engine (client_id, ClientAccount) and (transaction_id, AccountEvent)
+/// BTrees as storage engine (client_id, ClientAccount) and (transaction_id, AccountEvent)
 ///
 /// this should hopefully allows us quick lookups.
 ///
@@ -60,7 +60,7 @@ use serde::{Deserialize, Serialize};
 /// so we have size wise per record 24 bytes -> as seen in the test
 ///
 /// u16 + i32 + u64 + enum (u8) https://fasterthanli.me/articles/peeking-inside-a-rust-enum
-/// which roughly would be 22.888183594 MB if we keep it in memory (ofc I ignore the allocation of the BTree which basically will
+/// which roughly would be (memory sizes in the tests) 22.888183594 MB if we keep it in memory (ofc I ignore the allocation of the BTree which basically will
 /// now we only need to store the actual ones with money in which with luck means an even smaller footprint
 /// since we're storing it in an BTreeMap this allows us to have theoretical O(1) lookup time to discard invalid transactions / out of order transactions
 ///
@@ -68,7 +68,7 @@ use serde::{Deserialize, Serialize};
 ///
 /// the problem in general is that in theory if these are web streams
 /// that we cannot assume the right order so probably what we will need is a retry consolidation concept.
-/// but the amount of different approach is just to much
+/// but the amount of different approaches is just to much
 ///
 /// This is concept 1: straight forward
 /// Concept 2 would be using a state-machine using "from"
